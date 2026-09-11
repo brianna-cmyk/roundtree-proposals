@@ -9,9 +9,9 @@
     :root {
       --rt-navy: #0F2038;
       --rt-navy-light: #1D3557;
-      --rt-blue: #00A8E8;
-      --rt-blue-hover: #0086BA;
-      --rt-bg: #F4F7F9;
+      --rt-orange: #E86C3F; /* Roundtree Signature Orange */
+      --rt-orange-hover: #D0582B;
+      --rt-bg: #F8FAF9;
       --rt-card-bg: #FFFFFF;
       --rt-text: #1E293B;
       --rt-muted: #64748B;
@@ -42,29 +42,24 @@
       align-items: center;
       border-radius: 12px;
       margin-bottom: 32px;
-      box-shadow: 0 4px 12px rgba(15, 32, 56, 0.15);
+      box-shadow: 0 4px 12px rgba(15, 32, 56, 0.12);
     }
 
-    .brand-logo {
-      font-size: 24px;
+    .brand-logo-img {
+      height: 38px;
+      width: auto;
+      filter: brightness(0) invert(1); /* Keeps logo white on dark background */
+    }
+
+    .brand-logo-fallback {
+      font-size: 22px;
       font-weight: 800;
-      letter-spacing: -0.5px;
       color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-logo .dot {
-      width: 10px;
-      height: 10px;
-      background-color: var(--rt-blue);
-      border-radius: 50%;
-      display: inline-block;
+      letter-spacing: -0.5px;
     }
 
     .confidential-badge {
-      background: rgba(255, 255, 255, 0.12);
+      background: var(--rt-orange);
       color: #FFFFFF;
       font-size: 11px;
       font-weight: 700;
@@ -146,6 +141,7 @@
     .stat-box {
       background: #F8FAFC;
       border: 1px solid var(--rt-border);
+      border-top: 4px solid var(--rt-orange);
       padding: 20px;
       border-radius: 12px;
       text-align: center;
@@ -153,7 +149,7 @@
     .stat-num {
       font-size: 32px;
       font-weight: 800;
-      color: var(--rt-blue);
+      color: var(--rt-navy);
       line-height: 1;
     }
     .stat-lbl {
@@ -166,8 +162,20 @@
     }
 
     /* Lists */
-    .scope-list { padding-left: 20px; margin: 16px 0; }
-    .scope-list li { margin-bottom: 10px; color: var(--rt-text); }
+    .scope-list { padding-left: 0; list-style: none; margin: 16px 0; }
+    .scope-list li {
+      margin-bottom: 12px;
+      color: var(--rt-text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .scope-list li::before {
+      content: "✓";
+      color: var(--rt-orange);
+      font-weight: 900;
+      font-size: 16px;
+    }
 
     .out-of-scope-box {
       background: #FFFBEB;
@@ -202,11 +210,11 @@
       transition: all 0.2s ease;
       background: #FFFFFF;
     }
-    .price-box:hover { border-color: var(--rt-blue); }
+    .price-box:hover { border-color: var(--rt-orange); }
     .price-box.active {
-      border-color: var(--rt-blue);
-      background-color: #F0F9FF;
-      box-shadow: 0 0 0 2px var(--rt-blue);
+      border-color: var(--rt-orange);
+      background-color: #FFF8F5;
+      box-shadow: 0 0 0 2px var(--rt-orange);
     }
 
     .recommended-badge {
@@ -214,7 +222,7 @@
       top: -12px;
       left: 50%;
       transform: translateX(-50%);
-      background: var(--rt-blue);
+      background: var(--rt-orange);
       color: white;
       font-size: 10px;
       font-weight: 800;
@@ -250,9 +258,10 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .btn-primary { background: var(--rt-blue); color: white; }
-    .btn-primary:hover { background: var(--rt-blue-hover); }
-    .btn-success { background: var(--rt-success); color: white; font-size: 16px; }
+    .btn-primary { background: var(--rt-orange); color: white; }
+    .btn-primary:hover { background: var(--rt-orange-hover); }
+    .btn-success { background: var(--rt-orange); color: white; font-size: 16px; }
+    .btn-success:hover { background: var(--rt-orange-hover); }
     .btn-outline { border: 1px solid var(--rt-border); background: transparent; color: var(--rt-navy); }
 
     .admin-bar {
@@ -272,7 +281,11 @@
     <!-- ADMIN FORM VIEW -->
     <div id="admin-view">
       <div class="brand-bar">
-        <div class="brand-logo">ROUNDTREE <span class="dot"></span> <span style="font-size:16px; font-weight:400; opacity:0.8;">PROPOSAL GENERATOR</span></div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <img src="https://roundtreeagency.com/wp-content/uploads/2024/04/ROUNDTREE-Logo-Vertical_150px-1.png" alt="Roundtree Agency" class="brand-logo-img" onerror="this.style.display='none'">
+          <span class="brand-logo-fallback">ROUNDTREE</span>
+        </div>
+        <div class="confidential-badge">Proposal Generator</div>
       </div>
 
       <div class="card">
@@ -335,7 +348,10 @@
     <!-- CLIENT PROPOSAL VIEW -->
     <div id="client-view" class="hidden">
       <div class="brand-bar">
-        <div class="brand-logo">ROUNDTREE <span class="dot"></span></div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <img src="https://roundtreeagency.com/wp-content/uploads/2024/04/ROUNDTREE-Logo-Vertical_150px-1.png" alt="Roundtree Agency" class="brand-logo-img" onerror="this.style.display='none'">
+          <span class="brand-logo-fallback">ROUNDTREE</span>
+        </div>
         <div class="confidential-badge">Confidential Proposal</div>
       </div>
 
