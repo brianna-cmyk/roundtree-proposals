@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roundtree Agency | Proposal</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ADMIN FORM VIEW -->
+  <div id="admin-view" class="container">
+    <header class="header">
+      <div class="brand">ROUNDTREE <span>PROPOSAL GENERATOR</span></div>
+    </header>
+
+    <div class="card">
+      <h2>Proposal Details</h2>
+      <div class="form-grid">
+        <div class="field">
+          <label>Project Title</label>
+          <input type="text" id="projectTitle" value="Charitable Giving Examples Project">
+        </div>
+        <div class="field">
+          <label>Client Name / Organization</label>
+          <input type="text" id="clientName" value="PCA Foundation">
+        </div>
+        <div class="field">
+          <label>Contact Name</label>
+          <input type="text" id="contactName" value="Brianna Roberson">
+        </div>
+        <div class="field">
+          <label>Prepared By</label>
+          <input type="text" id="authorName" value="Hannah Forsythe">
+        </div>
+      </div>
+
+      <h2>Pricing & Scope Options</h2>
+      <div class="form-grid">
+        <div class="field">
+          <label>Option 1 Title</label>
+          <input type="text" id="opt1Title" value="Option 1: Graphic + Text Videos">
+        </div>
+        <div class="field">
+          <label>Option 1 Cost ($)</label>
+          <input type="number" id="opt1Cost" value="8500">
+        </div>
+        <div class="field">
+          <label>Option 2 Title</label>
+          <input type="text" id="opt2Title" value="Option 2: Visual Reformatting">
+        </div>
+        <div class="field">
+          <label>Option 2 Cost ($)</label>
+          <input type="number" id="opt2Cost" value="7000">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button onclick="generateLink()" class="btn btn-primary">Generate & Preview Client Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLIENT PROPOSAL VIEW -->
+  <div id="client-view" class="container hidden">
+    <header class="header client-header">
+      <div class="brand">ROUNDTREE AGENCY</div>
+      <div class="badge">CONFIDENTIAL PROPOSAL</div>
+    </header>
+
+    <div class="hero">
+      <h1 id="view-title">Project Title</h1>
+      <p class="subtitle">Prepared for <strong id="view-client">Client</strong> by <span id="view-author">Author</span></p>
+    </div>
+
+    <!-- VENDOR PROFILE / TRUST METRICS -->
+    <div class="card metrics-card">
+      <h2>Why Roundtree Agency?</h2>
+      <p>A creative partner for ambitious nonprofits. We build better donor relationships through better communications.</p>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-num">$400M+</div>
+          <div class="stat-lbl">Raised by clients last year</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">100+</div>
+          <div class="stat-lbl">Countries served globally</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">2,000,000+</div>
+          <div class="stat-lbl">Donor emails sent annually</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVESTMENT OPTIONS -->
+    <div class="card">
+      <h2>Investment Options</h2>
+      <div class="pricing-grid">
+        <div class="price-box" onclick="selectOption(1)" id="box-opt1">
+          <h3 id="view-opt1-title">Option 1</h3>
+          <div class="price" id="view-opt1-cost">$0</div>
+          <button class="btn btn-outline" id="btn-opt1">Select Option 1</button>
+        </div>
+        <div class="price-box featured" onclick="selectOption(2)" id="box-opt2">
+          <div class="recommended-tag">RECOMMENDED</div>
+          <h3 id="view-opt2-title">Option 2</h3>
+          <div class="price" id="view-opt2-cost">$0</div>
+          <button class="btn btn-primary" id="btn-opt2">Select Option 2</button>
+        </div>
+      </div>
+
+      <div class="accept-bar">
+        <div>Selected Investment: <strong id="selected-total" class="total-price">$0</strong></div>
+        <button class="btn btn-success" onclick="alert('Proposal Accepted!')">Accept Proposal</button>
+      </div>
+    </div>
+
+    <div class="admin-bar">
+      <button onclick="copyShareableUrl()" class="btn btn-secondary">Copy Shareable Link</button>
+      <button onclick="showAdmin()" class="btn btn-outline">Edit Proposal</button>
+    </div>
+  </div>
+
+  <script>
+    function getFormData() {
+      return {
+        title: document.getElementById('projectTitle').value,
+        client: document.getElementById('clientName').value,
+        contact: document.getElementById('contactName').value,
+        author: document.getElementById('authorName').value,
+        opt1Title: document.getElementById('opt1Title').value,
+        opt1Cost: document.getElementById('opt1Cost').value,
+        opt2Title: document.getElementById('opt2Title').value,
+        opt2Cost: document.getElementById('opt2Cost').value
+      };
+    }
+
+    function generateLink() {
+      const data = getFormData();
+      const encoded = encodeURIComponent(JSON.stringify(data));
+      window.location.hash = 'data=' + encoded;
+      renderClientView(data);
+    }
+
+    function renderClientView(data) {
+      document.getElementById('admin-view').classList.add('hidden');
+      document.getElementById('client-view').classList.remove('hidden');
+
+      document.getElementById('view-title').innerText = data.title;
+      document.getElementById('view-client').innerText = data.client + ' (' + data.contact + ')';
+      document.getElementById('view-author').innerText = data.author;
+
+      document.getElementById('view-opt1-title').innerText = data.opt1Title;
+      document.getElementById('view-opt1-cost').innerText = '$' + Number(data.opt1Cost).toLocaleString();
+      
+      document.getElementById('view-opt2-title').innerText = data.opt2Title;
+      document.getElementById('view-opt2-cost').innerText = '$' + Number(data.opt2Cost).toLocaleString();
+
+      selectOption(2); // Default to option 2
+    }
+
+    function selectOption(num) {
+      const data = getFormData();
+      const cost = num === 1 ? data.opt1Cost : data.opt2Cost;
+      
+      document.getElementById('box-opt1').classList.toggle('active', num === 1);
+      document.getElementById('box-opt2').classList.toggle('active', num === 2);
+      document.getElementById('selected-total').innerText = '$' + Number(cost).toLocaleString();
+    }
+
+    function copyShareableUrl() {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Shareable link copied to clipboard!');
+    }
+
+    function showAdmin() {
+      document.getElementById('client-view').classList.add('hidden');
+      document.getElementById('admin-view').classList.remove('hidden');
+    }
+
+    // Load data if URL hash exists
+    window.onload = function() {
+      if (window.location.hash.startsWith('#data=')) {
+        const raw = window.location.hash.replace('#data=', '');
+        try {
+          const data = JSON.parse(decodeURIComponent(raw));
+          renderClientView(data);
+        } catch(e) { console.error('Invalid link data'); }
+      }
+    };
+  </script>
+</body>
+</html>
